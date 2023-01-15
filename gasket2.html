@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<title>2D Sierpinski Gasket</title>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+attribute vec3 vColor;
+varying vec4 color;
+
+void
+main()
+{
+    gl_Position = vPosition;
+	color = vec4(vColor, 1.0);
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+   
+varying vec4 color;
+
+void
+main()
+{
+    gl_FragColor = color;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="gasket2.js"></script>
+</head>   
+
+<body>
+<!-- HW470: -->
+<h1>CSE 470 HW#1: Sierpinksy Gasket Twirl</h1>
+<span><b>Author: </b>YOUR_NAME_HERE</span><br>
+<span><b>Date: </b>Jannuary 18, 2017</span><br>
+<span><b>Description: </b>This program displays a cool morph of the 2D Sierpinksi gasket !</span><br>
+<span><b>Functionality:</b>
+<ul>
+<li>Each vertex of the original 2D gasket is assigned a color based on its (x,y) location.<br>
+Rule for mapping colors:
+<ul>
+<li>red: (1 - Math.sin(x)) / norm</li>
+<li>green: g = (1 + Math.cos(y) * x) / norm</li>
+<li>blue: b = (1 - Math.cos(y)) / norm</li>
+where norm = sqrt(x^2 + y^2)
+</ul>
+<li>Each vertex is rotated based on its position to origin using conversion to polar form<br>
+x' = x * cos(&phi;)-y*sin(&phi;)+x0<br>
+y' = x * sin(&phi;)+y*cos(&phi;)+x0<br>
+where (x, y) - current vertex position,<br>
+&phi; - angle of point (actualy vector angle based on vertex coords)<br>
+and (x', y') - new position<br>
+<br>
+</li>
+</ul>
+</span>
+<span><b>Params:</b>
+<ul>
+<li>NumTimesToSubdivide - how much times divide triangle</li>
+<li>Morphing controlled by &theta; angle using slider to interactive changing</li>
+</ul>
+</span>
+</br>
+<!-- HW470: -->
+
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+<!-- HW470: -->
+<table cellspacing="5" cellpadding="10">
+<thead>
+	<th>Rotation angle</th>
+</thead>
+<tr>
+	<td>&theta; = <span id="label_theta">0</span></td>
+</tr>
+<tr>
+	<td>0<input id="slider_theta" type="range" min="0" max="90" step="1" value="15" /> &pi;/2</td>
+</tr>
+</table>
+</hr>
+<!-- HW470: -->
+
+</body>
+</html>
